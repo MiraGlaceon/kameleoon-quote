@@ -1,6 +1,6 @@
 package mira.space.kameleoon.services.impl;
 
-import mira.space.kameleoon.exceptions.PropertyBadRequestException;
+import mira.space.kameleoon.exceptions.IncorrectPropertyException;
 import mira.space.kameleoon.exceptions.UserPropertyAlreadyExistException;
 import mira.space.kameleoon.models.User;
 import mira.space.kameleoon.models.repositories.UserRepository;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
             throw new UserPropertyAlreadyExistException(user.getPassword());
         }
         if (!ValidUtils.isEmailValid(user.getEmail())) {
-            throw new PropertyBadRequestException("email");
+            throw new IncorrectPropertyException("email");
         } else {
             Optional<String> loadedEmail = userRepository.findEmail(user.getEmail());
             if (loadedEmail.isPresent()) { // if email exist means uniqueness violation

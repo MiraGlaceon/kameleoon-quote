@@ -1,6 +1,6 @@
 package mira.space.kameleoon.utils;
 
-import mira.space.kameleoon.exceptions.PropertyBadRequestException;
+import mira.space.kameleoon.exceptions.IncorrectPropertyException;
 import org.h2.util.StringUtils;
 
 import java.util.regex.Pattern;
@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 public class ValidUtils {
 
     /**
-     * @throws PropertyBadRequestException if property null or empty
+     * @throws IncorrectPropertyException if property null or empty
      */
     public static void checkValid(String property, String input) {
         if (StringUtils.isNullOrEmpty(input)) {
-            throw new PropertyBadRequestException(property);
+            throw new IncorrectPropertyException(property);
         }
     }
 

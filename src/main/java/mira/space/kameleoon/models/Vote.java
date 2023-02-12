@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -17,14 +17,10 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "positive_rate")
-    private Integer positiveRate = 0;
-
-    @Column(name = "negative_rate")
-    private Integer negativeRate = 0;
+    private Integer rate = 0;
 
     @Column(name = "update_ts", nullable = false)
     @ElementCollection
     @CollectionTable(name = "updates", joinColumns = @JoinColumn(name = "vote_id"))
-    private List<Date> updateTs;
+    private Map<Date, Integer> updateTs;
 }

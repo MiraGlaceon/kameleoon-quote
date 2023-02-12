@@ -1,17 +1,13 @@
 package mira.space.kameleoon.controllers;
 
-import mira.space.kameleoon.exceptions.NotSuchQuoteException;
+import mira.space.kameleoon.exceptions.NoSuchEntityException;
+import mira.space.kameleoon.exceptions.EntityUpdateException;
 import mira.space.kameleoon.models.Quote;
-import mira.space.kameleoon.models.User;
-import mira.space.kameleoon.models.Vote;
 import mira.space.kameleoon.models.repositories.QuoteRepository;
-import mira.space.kameleoon.models.repositories.UserRepository;
 import mira.space.kameleoon.services.QuoteService;
-import mira.space.kameleoon.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.Date;
 import java.util.Optional;
@@ -27,7 +23,7 @@ public class QuoteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Quote> getQuote(@PathVariable Long id) {
-        Quote quote = quoteRepository.findById(id).orElseThrow(() -> new NotSuchQuoteException(id));
+        Quote quote = quoteRepository.findById(id).orElseThrow(() -> new NoSuchEntityException(id));
         return ResponseEntity.ok(quote);
     }
 
@@ -51,8 +47,8 @@ public class QuoteController {
             return ResponseEntity.ok(quoteRepository.save(quote));
         }
         int updatedRecords = quoteRepository.updateQuote(quote.getContent(), new Date(), id);
-        if (updatedRecords != 1) {
-            return ResponseEntity.internalServerError().build();
+        if (updatedRecords == 0) {
+            throw new EntityUpdateException(quote.getClass().getName(), id);
         }
         return ResponseEntity.ok().build();
     }

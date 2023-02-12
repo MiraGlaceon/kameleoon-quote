@@ -1,5 +1,6 @@
 package mira.space.kameleoon.services.impl;
 
+import mira.space.kameleoon.exceptions.UserSessionIdException;
 import mira.space.kameleoon.models.Quote;
 import mira.space.kameleoon.models.User;
 import mira.space.kameleoon.models.Vote;
@@ -37,7 +38,7 @@ public class QuoteServiceImpl implements QuoteService {
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         Optional<User> owner = userRepository.findBySessionId(sessionId);
         if (owner.isEmpty()) {
-            ResponseEntity.internalServerError().build(); // user must be logged in
+            throw new UserSessionIdException(); // user must be logged in
         }
         quote.setOwner(owner.get());
         quote.setUpdateTs(new Date());
