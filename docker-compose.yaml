@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+  server:
+    image: mira40817/kameleoon:latest
+    ports:
+      - "8080:8080"
